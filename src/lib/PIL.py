@@ -15,16 +15,13 @@ __status__      = "Prototype"  # "Prototype", "Development" or "Production"
 __module__      = "PIL"
 
 
-class PixelAccess(dict):
-    def __new__(cls, parent):
-        return dict.__new__(cls)
-
+class PixelAccess():
     def __init__(self, parent):
-        for x in range(parent.size[0]):
-            for y in range(parent.size[1]):
-                dict.__setitem__(self, (x, y), parent._image.getPixel(x, y))
-
         self._parent = parent
+
+    def __getitem__(self, key):
+        p = self._parent._image.getPixel(*key)
+        return p.getRed(), p.getGreen(), p.getBlue()
 
     def __setitem__(self, key, value):
         r, g, b = value
@@ -33,8 +30,8 @@ class PixelAccess(dict):
 
 
 class Image():
-    def __init__(self, _Image):
-        self._image = _Image
+    def __init__(self, image):
+        self._image = image
         self.size = (self._image.getWidth(), self._image.getHeight())
 
         self.pixels = PixelAccess(self)
