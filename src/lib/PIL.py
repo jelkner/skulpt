@@ -16,10 +16,13 @@ __module__      = "PIL"
 
 
 class PixelAccess(dict):
+    def __new__(cls, parent):
+        return dict.__new__(cls)
+
     def __init__(self, parent):
         for x in range(parent.size[0]):
             for y in range(parent.size[1]):
-                super().__setitem__((x, y), parent._image.getPixel(x, y))
+                dict.__setitem__(self, (x, y), parent._image.getPixel(x, y))
 
         self._parent = parent
 
@@ -40,7 +43,7 @@ class Image():
 
     def open(filename):
         cls = Image
-        self = cls(_image=_image.Image(filename))
+        self = cls(_Image=_image.Image(filename))
         return self
 
     def load(self):
