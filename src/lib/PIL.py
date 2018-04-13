@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # vim: set fileencoding=utf-8 :
 
-import image as _image
+import image as _image_module
 
 __appname__     = "PIL"
 __author__      = "Marco Sirabella"
@@ -29,8 +29,7 @@ class PixelAccess(dict):
     def __setitem__(self, key, value):
         r, g, b = value
         x, y = key
-        self._parent._image.setPixel(x, y, _image.Pixel(r, g, b, x, y))
-        #self._parent._image.updatePixel(_image.Pixel(r, g, b, x, y)
+        self._parent._image.updatePixel(_image_module.Pixel(r, g, b, x, y))
 
 
 class Image():
@@ -42,12 +41,12 @@ class Image():
 
     def open(filename):
         cls = Image
-        self = cls(_Image=_image.Image(filename))
+        self = cls(image=_image_module.Image(filename))
         return self
 
     def load(self):
         return self.pixels
 
     def show(self):
-        win = _image.ImageWin(*self.size)
+        win = _image_module.ImageWin(*self.size)
         self._image.draw(win)
