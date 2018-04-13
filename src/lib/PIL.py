@@ -27,11 +27,10 @@ class PixelAccess(dict):
         self._parent = parent
 
     def __setitem__(self, key, value):
-        p = self._parent._image.getPixel(*key)
-        p.setRed(value[0])
-        p.setGreen(value[1])
-        p.setBlue(value[2])
-        self._parent._image.updatePixel(p)
+        r, g, b = value
+        x, y = key
+        self._parent._image.setPixel(x, y, _image.Pixel(r, g, b, x, y))
+        #self._parent._image.updatePixel(_image.Pixel(r, g, b, x, y)
 
 
 class Image():
